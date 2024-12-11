@@ -7,12 +7,12 @@ import { obtenerProductosAProximoVencer, obtenerProductosVencidos } from './data
 dotenv.config();
 
 console.log("hola enejcutando en mailer.js");
-// console.log('Email User:', process.env.NODE_EMAIL_USER);
-// console.log('Email Pass:', process.env.NODE_EMAIL_PASS);
+console.log('Email User:', process.env.NODE_EMAIL_USER);
+console.log('Email Pass:', process.env.NODE_EMAIL_PASS);
 
 //^  ejecucion de nodecron
 
-cron.schedule('0 * * * *', async () => {  // Ejecutar cada minuto
+cron.schedule('*/10 * * * *', async () => {  // Ejecutar cada minuto
   console.log("Ejecutando node-cron a las 11:35");
 
   try {
@@ -20,7 +20,7 @@ cron.schedule('0 * * * *', async () => {  // Ejecutar cada minuto
     // Obtener productos próximos a vencer
     console.log('Obteniendo productos próximos a vencer...');
     const productosProximos = await obtenerProductosAProximoVencer();
-    console.log("productos Proximos a vencer en mailer:", productosProximos);
+    console.log("productos Proximos a vencer en mailer:", productosProximos.length);
 
     productosProximos.forEach((producto) => {
       if(producto.notificado){
@@ -29,7 +29,7 @@ cron.schedule('0 * * * *', async () => {  // Ejecutar cada minuto
         const body = `
         <p>El producto ${producto.nombre} con lote ${producto.lote} está a punto de vencer en ${producto.mesesRestantes} meses, vencimiento: ${producto.fechaVencimiento}.</p>
         <p>
-          <a href="http://localhost:4041/api/email/notificar-producto/${producto.id}" 
+          <a href="https://sgmrcbackend-production.up.railway.app/api/email/notificar-producto/${producto.id}" 
              style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; text-align: center; text-decoration: none; font-size: 16px; border-radius: 5px;">
              Notificado
           </a>
@@ -46,7 +46,7 @@ cron.schedule('0 * * * *', async () => {  // Ejecutar cada minuto
     // Obtener productos vencidos
     console.log('Obteniendo productos vencidos...');
     const productosVencidos = await obtenerProductosVencidos();
-    console.log("productos Vencidos en mailer:", productosVencidos);
+    console.log("productos Vencidos en mailer:", productosVencidos.length);
 
     productosVencidos.forEach((producto) => {
       if(producto.notificado){
@@ -55,7 +55,7 @@ cron.schedule('0 * * * *', async () => {  // Ejecutar cada minuto
         const body = `
         <p>El producto ${producto.nombre} con lote ${producto.lote} ha vencido el dia: ${producto.fechaVencimiento}.</p>
         <p>
-          <a href="http://localhost:4041/api/email/notificar-producto/${producto.id}" 
+          <a href="https://sgmrcbackend-production.up.railway.app/api/email/notificar-producto/${producto.id}" 
              style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; text-align: center; text-decoration: none; font-size: 16px; border-radius: 5px;">
              Notificado
           </a>
