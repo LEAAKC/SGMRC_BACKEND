@@ -12,8 +12,8 @@ console.log('Email Pass:', process.env.NODE_EMAIL_PASS);
 
 //^  ejecucion de nodecron
 
-cron.schedule('*/10 * * * *', async () => {  // Ejecutar cada minuto
-  console.log("Ejecutando node-cron a las 11:35");
+cron.schedule('0 */2 * * *', async () => {  // Ejecutar cada minuto
+  console.log("Ejecutando node-cron cada 2 horas");
 
   try {
 
