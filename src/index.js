@@ -28,6 +28,12 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+//& endpoint para ejecutar con uptimerobot, ejecuta tareas cada cierto tiempo 
+//& para evitar que railway entre en hibernacion
+app.get('/ping', (req, res) => {
+    res.send('OK'); // Responde con "OK" cuando se hace una petición GET
+  });
+
 //*Rutas
 app.use('/api/pdfs', pdfRoutes);
 app.use('/api/table', dataRoutes);
