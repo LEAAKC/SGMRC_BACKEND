@@ -11,81 +11,102 @@ console.log('Email User:', process.env.NODE_EMAIL_USER);
 console.log('Email Pass:', process.env.NODE_EMAIL_PASS);
 
 // Tarea que se ejecuta a las 12:01 AM
-cron.schedule('*/15 * * * *' , async () => {  // Ejecutar a las 00:01 AM
+cron.schedule('* * * * *', async () => {  // Ejecutar a las 00:01 AM
   console.log('Tarea ejecutada a las 00:01 AM');
 
   try {
+    // Almacenar los productos a notificar
+    const productosProximos = [];
+    const productosVencidos = [];
+
     // Obtener productos próximos a vencer
     console.log('Obteniendo productos próximos a vencer...');
-    const productosProximos = await obtenerProductosAProximoVencer();
-    console.log("productos Proximos a vencer en mailer:", productosProximos.length);
+    const productosProximosA = await obtenerProductosAProximoVencer();
 
-    productosProximos.forEach((producto) => {
-      if (producto.notificado) {
-        return;
-      } else {
-        const body = `
-        <p>El producto ${producto.nombre} con lote ${producto.lote} está a punto de vencer en ${producto.mesesRestantes} meses, vencimiento: ${producto.fechaVencimiento}.</p>
-        <p>
-          <a href="https://sgmrcbackend-production.up.railway.app/api/email/notificar-producto/${producto.id}" 
-             style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; text-align: center; text-decoration: none; font-size: 16px; border-radius: 5px;">
-             Notificado
-          </a>
-        </p>
-        <p style="color: #ff0000;">
-          Tenga en cuenta que una vez se notifique el aviso, ya no aparecerá la alerta sobre este producto.
-        </p>
-      `;
-        console.log(body);
-        sendEmailData('Aviso proximo a vencer', body);
+    // Almacenar los productos próximos a vencer en un array
+    productosProximosA.forEach((producto) => {
+      if (!producto.notificado) {
+        productosProximos.push({
+          nombre: producto.nombre,
+          lote: producto.lote,
+          fechaVencimiento: producto.fechaVencimiento,
+          mesesRestantes: producto.mesesRestantes,
+          id: producto.id
+        });
       }
     });
 
     // Obtener productos vencidos
     console.log('Obteniendo productos vencidos...');
-    const productosVencidos = await obtenerProductosVencidos();
-    console.log("productos Vencidos en mailer:", productosVencidos.length);
+    const productosVencidosA = await obtenerProductosVencidos();
 
-    productosVencidos.forEach((producto) => {
-      if (producto.notificado) {
-        return;
-      } else {
-        const body = `
-        <p>El producto ${producto.nombre} con lote ${producto.lote} ha vencido el dia: ${producto.fechaVencimiento}.</p>
-        <p>
-          <a href="https://sgmrcbackend-production.up.railway.app/api/email/notificar-producto/${producto.id}" 
-             style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; text-align: center; text-decoration: none; font-size: 16px; border-radius: 5px;">
-             Notificado
-          </a>
-        </p>
-        <p style="color: #ff0000;">
-          Tenga en cuenta que una vez se notifique el aviso, ya no aparecerá la alerta sobre este producto.
-        </p>
-      `;
-        console.log(body);
-        sendEmailData('Aviso de vencimiento', body);
+    // Almacenar los productos vencidos en un array
+    productosVencidosA.forEach((producto) => {
+      if (!producto.notificado) {
+        productosVencidos.push({
+          nombre: producto.nombre,
+          lote: producto.lote,
+          fechaVencimiento: producto.fechaVencimiento,
+          id: producto.id
+        });
       }
     });
+
+    // Si hay productos próximos a vencer, enviamos un solo correo con la lista
+    if (productosProximos.length > 0) {
+      const bodyProximos = generateEmailBody(productosProximos, 'Próximos a vencer');
+      sendEmailData('Listado de productos próximos a vencer', bodyProximos);
+    }
+
+    // Si hay productos vencidos, enviamos un solo correo con la lista
+    if (productosVencidos.length > 0) {
+      const bodyVencidos = generateEmailBody(productosVencidos, 'Vencidos');
+      sendEmailData('Listado de productos vencidos', bodyVencidos);
+    }
+
   } catch (error) {
     console.error('Error al ejecutar las funciones:', error);
   }
 });
+
+// Función para generar el contenido HTML del correo
+const generateEmailBody = (productos, tipo) => {
+  let htmlContent = `<h2>Listado de productos ${tipo}</h2>`;
+  productos.forEach((producto) => {
+    htmlContent += `
+      <p><strong>Producto:</strong> ${producto.nombre}</p>
+      <p><strong>Lote:</strong> ${producto.lote}</p>
+      <p><strong>Fecha de Vencimiento:</strong> ${producto.fechaVencimiento}</p>
+      ${tipo === 'Próximos a vencer' ? `<p><strong>Meses restantes:</strong> ${producto.mesesRestantes}</p>` : ''}
+      <p>
+        <a href="https://sgmrcbackend-production.up.railway.app/api/email/notificar-producto/${producto.id}" 
+           style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; text-align: center; text-decoration: none; font-size: 16px; border-radius: 5px;">
+           Notificar
+        </a>
+      </p>
+      <p style="color: #ff0000;">
+        Tenga en cuenta que una vez se notifique el aviso, ya no aparecerá la alerta sobre este producto.
+      </p>
+      <hr />
+    `;
+  });
+  return htmlContent;
+};
 
 // Tarea que se ejecuta cada minuto
 cron.schedule('*/5 * * * *', async () => {  // Ejecutar cada minuto
   console.log('Tarea ejecutada cada minuto');
 
   try {
-    
     const date = new Date();  // Obtén la fecha y hora actual
     const currentTime = date.toLocaleString();  // Formatea la hora en formato local
     
     const body = `
-      <p>El producto ${"test"} con lote ${"test"} ha vencido el día: ${"test"}.</p>
+      <p>ESTE ES UN CORREO DE TES APRA MONITOREAR QUE LA APP NO ENTRE EN SUSPPENSION</p>
       <p>
         <a href="https://sgmrcbackend-production.up.railway.app/api/email/notificar-producto" 
            style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; text-align: center; text-decoration: none; font-size: 16px; border-radius: 5px;">
-           Notificado
+           Notificar
         </a>
       </p>
       <p style="color: #ff0000;">
@@ -95,8 +116,7 @@ cron.schedule('*/5 * * * *', async () => {  // Ejecutar cada minuto
     `;
     // Lógica de la tarea que se ejecuta cada minuto (puedes agregarla según tus necesidades)
     console.log('Ejecutando tarea periódica...');
-    sendEmailData('TESTING DE NODECRON DESPLEGAdo', body)
-    // Aquí puedes agregar el código que deseas ejecutar cada minuto
+    sendEmailData('TESTING CADA 5 MINUTOS', body)
   } catch (error) {
     console.error('Error al ejecutar la tarea cada minuto:', error);
   }
@@ -114,6 +134,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+// Función para enviar el correo
 export const sendEmailData = async (subject, body) => {
   const mailOptions = {
     from: process.env.NODE_EMAIL_USER,
