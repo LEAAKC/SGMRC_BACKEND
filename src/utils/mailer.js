@@ -77,7 +77,7 @@ cron.schedule('*/5 * * * *', async () => {  // Ejecutar cada minuto
 
   try {
     const body = `
-    <p>El producto ${producto.nombre} con lote ${producto.lote} está a punto de vencer en ${producto.mesesRestantes} meses, vencimiento: ${producto.fechaVencimiento}.</p>
+    <p>El producto ${"test"} con lote ${"test"} ha vencido el dia: ${"test"}.</p>
     <p>
       <a href="https://sgmrcbackend-production.up.railway.app/api/email/notificar-producto" 
          style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; text-align: center; text-decoration: none; font-size: 16px; border-radius: 5px;">
