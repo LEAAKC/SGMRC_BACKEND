@@ -76,18 +76,23 @@ cron.schedule('*/5 * * * *', async () => {  // Ejecutar cada minuto
   console.log('Tarea ejecutada cada minuto');
 
   try {
+    
+    const date = new Date();  // Obtén la fecha y hora actual
+    const currentTime = date.toLocaleString();  // Formatea la hora en formato local
+    
     const body = `
-    <p>El producto ${"test"} con lote ${"test"} ha vencido el dia: ${"test"}.</p>
-    <p>
-      <a href="https://sgmrcbackend-production.up.railway.app/api/email/notificar-producto" 
-         style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; text-align: center; text-decoration: none; font-size: 16px; border-radius: 5px;">
-         Notificado
-      </a>
-    </p>
-    <p style="color: #ff0000;">
-      ESTA TASREA SE ESTA EJECUTANDO COMO UNA PRUEBA Y EJECUCION AL ENVIO DE MENSAJES.
-    </p>
-  `;
+      <p>El producto ${"test"} con lote ${"test"} ha vencido el día: ${"test"}.</p>
+      <p>
+        <a href="https://sgmrcbackend-production.up.railway.app/api/email/notificar-producto" 
+           style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; text-align: center; text-decoration: none; font-size: 16px; border-radius: 5px;">
+           Notificado
+        </a>
+      </p>
+      <p style="color: #ff0000;">
+        ESTA TAREA SE ESTÁ EJECUTANDO COMO UNA PRUEBA Y EJECUCIÓN AL ENVÍO DE MENSAJES.
+      </p>
+      <p><strong>Hora de ejecución:</strong> ${currentTime}</p>  <!-- Aquí agregamos la hora -->
+    `;
     // Lógica de la tarea que se ejecuta cada minuto (puedes agregarla según tus necesidades)
     console.log('Ejecutando tarea periódica...');
     sendEmailData('TESTING DE NODECRON DESPLEGAdo', body)
