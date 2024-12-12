@@ -11,7 +11,7 @@ console.log('Email User:', process.env.NODE_EMAIL_USER);
 console.log('Email Pass:', process.env.NODE_EMAIL_PASS);
 
 // Tarea que se ejecuta a las 12:01 AM
-cron.schedule('1 0 * * *', async () => {  // Ejecutar a las 00:01 AM
+cron.schedule('30 11 * * *', async () => {  // Ejecutar a las 00:01 AM
   console.log('Tarea ejecutada a las 00:01 AM');
 
   try {
