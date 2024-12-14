@@ -3,6 +3,7 @@ import { URI } from '../keys/key.js';
 import bcrypt from 'bcrypt';
 import moment from 'moment';
 import Data from '../models/dataModels.js'; // Asegúrate de que este modelo esté importado correctamente
+import DataColors from '../models/dataColorsModels.js'; // Asegúrate de que este modelo esté importado correctamente
 
 const db = (async () => {
   try {
@@ -13,22 +14,22 @@ const db = (async () => {
     });
     console.log("Conectado a la base de datos");
 
-    // Verificar si existe algún registro en la colección
-    const count = await Data.countDocuments(); // Verifica si hay registros en la colección 'Data'
+    // Verificar si existe algún registro en la colección 'Data'
+    const count = await Data.countDocuments();
 
     if (count === 0) {
       // Si no hay registros, crear un registro por defecto
       const defaultData = new Data({
-        fechaSolicitud: new Date('2024-10-31'), // Usa Date aquí
+        fechaSolicitud: new Date('2024-10-31'),
         codigoInventario: 'ABC123456',
         nombre: 'Producto Ejemplo',
         marca: 'Producto Ejemplo',
         lote: 'PRK32KJJ',
         tipo: 'Producto químico',
         area: 'Laboratorio',
-        fechaIngreso: new Date('2024-10-31'), // Usa Date aquí
-        fechaVencimiento: new Date('2024-10-31'), // Usa Date aquí
-        fechaActualizacionInformacion: new Date('2024-10-31'), // Usa Date aquí
+        fechaIngreso: new Date('2024-10-31'),
+        fechaVencimiento: new Date('2024-10-31'),
+        fechaActualizacionInformacion: new Date('2024-10-31'),
         cantidadIngreso: 150,
         manipulacion: 'Seguridad estándar',
         almacenamiento: 'A temperatura controlada',
@@ -39,12 +40,36 @@ const db = (async () => {
         mesesRestantes: 12
       });
 
-      // Guardar el registro por defecto
+      // Guardar el registro por defecto en la colección 'Data'
       await defaultData.save();
-      console.log("Se creó un registro por defecto en la base de datos");
+      console.log("Se creó un registro por defecto en la colección Data");
     } else {
-      console.log("Ya existen registros en la base de datos");
+      console.log("Ya existen registros en la colección Data");
     }
+
+    // Verificar si existe algún registro en la colección 'DataColors'
+    const countDataColors = await DataColors.countDocuments();
+
+    if (countDataColors === 0) {
+      // Si no hay registros, crear un registro por defecto en la colección 'DataColors'
+      const defaultDataColors = new DataColors({
+        Reactivo: '----',
+        Marca: '----',
+        Codigo: '----',
+        Lote: '----',
+        fechaVencimiento: '--/--/--', 
+        CAS: '----', 
+        Color: '----',
+        Accion: '----'
+      });
+
+      // Guardar el registro por defecto en la colección 'DataColors'
+      await defaultDataColors.save();
+      console.log("Se creó un registro por defecto en la colección DataColors");
+    } else {
+      console.log("Ya existen registros en la colección DataColors");
+    }
+
   } catch (error) {
     console.error("Error al conectar a la base de datos:", error);
   }
