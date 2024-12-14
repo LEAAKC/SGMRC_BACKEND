@@ -13,8 +13,8 @@ const dataColorsSchema = new mongoose.Schema({
 }, { timestamps: true });  // Este campo agrega createdAt y updatedAt automáticamente
 
 // Crear los índices en los campos más utilizados
-dataSchema.index({ fechaVencimiento: 1 });
-dataSchema.index({ mesesRestantes: 1 });
+dataColorsSchema.index({ fechaVencimiento: 1 });
+dataColorsSchema.index({ mesesRestantes: 1 });
 
 // Crear el modelo
 const DataColors = mongoose.model('DataColors', dataColorsSchema);
