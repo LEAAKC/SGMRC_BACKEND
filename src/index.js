@@ -7,6 +7,7 @@ import db from './db/db.js';
 import pdfRoutes from './routes/pdfRoutes.js';
 import dataRoutes from './routes/dataRoutes.js';
 import sendEmail  from './routes/emailRouter.js';
+import DataColors from './routes/dataColorsRoutes.js';
 
 import configuraciones from './config/config.js'
 const app = express();
@@ -28,16 +29,11 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-//& endpoint para ejecutar con uptimerobot, ejecuta tareas cada cierto tiempo 
-//& para evitar que railway entre en hibernacion
-app.get('/ping', (req, res) => {
-    res.send('OK'); // Responde con "OK" cuando se hace una petición GET
-  });
-
 //*Rutas
 app.use('/api/pdfs', pdfRoutes);
 app.use('/api/table', dataRoutes);
 app.use('/api/email', sendEmail);
+app.use('/api/tableColors', DataColors);
 // ***************************************************************
 
 app.listen(PORT, ()=> {
