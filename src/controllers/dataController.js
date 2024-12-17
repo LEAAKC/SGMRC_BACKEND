@@ -3,6 +3,7 @@ const { ObjectId } = Types;
 
 // controllers/data.controller.js
 import Data from '../models/dataModels.js';
+import Pdf from '../models/pdfModel.js'
 
 
 // Crear un nuevo datos
@@ -19,6 +20,9 @@ export const createData = async (req, res) => {
 // Reemplazar toda la data
 export const replaceAllData = async (req, res) => {
   try {
+    
+    // Elimina todos los PDFs de la base de datos
+    await Pdf.deleteMany({}); 
     // Borrar todos los datos existentes
     await Data.deleteMany({});
 
