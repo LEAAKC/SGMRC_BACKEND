@@ -2,6 +2,9 @@ import path from 'path';
 
 // Función para manejar la descarga del archivo PDF
 export const downloadManual = (req, res) => {
+  // Obtener el directorio actual usando import.meta.url
+  const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
   const filePath = path.join(__dirname, '..', 'public', 'pdfFiles', 'manualAPPLABAKC.pdf');
   
   res.download(filePath, 'manualAPPLABAKC.pdf', (err) => {
