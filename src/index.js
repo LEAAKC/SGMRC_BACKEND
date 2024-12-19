@@ -8,6 +8,7 @@ import pdfRoutes from './routes/pdfRoutes.js';
 import dataRoutes from './routes/dataRoutes.js';
 import sendEmail  from './routes/emailRouter.js';
 import DataColors from './routes/dataColorsRoutes.js';
+import DownloadManual from './routes/manualRoutes.js';
 
 import configuraciones from './config/config.js'
 const app = express();
@@ -33,6 +34,7 @@ app.use('/api/pdfs', pdfRoutes);
 app.use('/api/table', dataRoutes);
 app.use('/api/email', sendEmail);
 app.use('/api/tableColors', DataColors);
+app.use('/api/download', DownloadManual);
 // ***************************************************************
 
 app.listen(PORT, ()=> {
