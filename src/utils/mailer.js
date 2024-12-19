@@ -6,14 +6,12 @@ import { obtenerProductosAProximoVencer, obtenerProductosVencidos } from './data
 // Cargar variables de entorno
 dotenv.config();
 
-console.log("hola ejecutando en mailer.js");
-console.log('Email User:', process.env.NODE_EMAIL_USER);
-console.log('Email Pass:', process.env.NODE_EMAIL_PASS);
+// console.log("hola ejecutando en mailer.js");
+// console.log('Email User:', process.env.NODE_EMAIL_USER);
+// console.log('Email Pass:', process.env.NODE_EMAIL_PASS);
 
 // Tarea que se ejecuta a las 12:01 AM
-cron.schedule('0 * * * *', async () => {  // Ejecutar a las 00:01 AM
-  console.log('Tarea ejecutada a las 00:01 AM');
-
+cron.schedule('0 0 0 * * *', async () => {  // Ejecutar CADA 24 HORAS
   try {
     // Almacenar los productos a notificar
     const productosProximos = [];
@@ -94,7 +92,7 @@ const generateEmailBody = (productos, tipo) => {
 };
 
 // Tarea que se ejecuta cada minuto
-cron.schedule('*/5 * * * *', async () => {  // Ejecutar cada minuto
+cron.schedule('0 */5 * * *', async () => {  // Ejecutar cada minuto
   console.log('Tarea ejecutada cada minuto');
 
   try {
@@ -139,6 +137,7 @@ export const sendEmailData = async (subject, body) => {
   const mailOptions = {
     from: process.env.NODE_EMAIL_USER,
     to: process.env.NODE_TO,
+    cc: process.env.NODE_TO_COPIA,
     subject,
     html: body
   };
