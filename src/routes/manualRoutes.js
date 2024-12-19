@@ -1,8 +1,9 @@
 import express from 'express';
 const router = express.Router();
-import {downloadPdf} from '../controllers/manualController.js'
+
+import {downloadManual} from '../controllers/manualController.js'
 
 // Definir la ruta para la descarga del archivo PDF
-router.get('/downloadpdf', downloadPdf);
+router.get('/downloadmanual', downloadManual);
 
-module.exports = router;
+export default router;
