@@ -8,6 +8,8 @@ exports.downloadPdf = (req, res) => {
     if (err) {
       console.error('Error al intentar descargar el archivo:', err);
       return res.status(500).send('Error al intentar descargar el archivo.');
+    }else{
+      res.status(200)
     }
   });
 };
