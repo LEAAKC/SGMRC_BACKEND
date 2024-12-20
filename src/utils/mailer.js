@@ -7,7 +7,7 @@ import { obtenerProductosAProximoVencer, obtenerProductosVencidos } from './data
 dotenv.config();
 
 // Tarea que se ejecuta a las 12:01 AM
-cron.schedule('*/5 * * * *', async () => {  // Ejecutar CADA 24 HORAS
+cron.schedule('0 */2 * * *', async () => {  // Ejecutar CADA 24 HORAS
   console.log('Cron de 5 minutos ejecutado');
 
   try {
@@ -17,7 +17,7 @@ cron.schedule('*/5 * * * *', async () => {  // Ejecutar CADA 24 HORAS
 
     // Obtener productos próximos a vencer
     console.log('Obteniendo productos próximos a vencer...');
-    const productosProximosA = await obtenerProductosAProximoVencer();
+    const productosProximosA = await obtenerProductosAProximoVencer();    
 
     // Almacenar los productos próximos a vencer en un array
     productosProximosA.forEach((producto) => {
@@ -47,9 +47,6 @@ cron.schedule('*/5 * * * *', async () => {  // Ejecutar CADA 24 HORAS
         });
       }
     });
-
-    console.log('Productos próximos a vencer:', productosProximos);
-console.log('Productos vencidos:', productosVencidos);
 
     // Generar un timestamp único para cada ejecución
     const timestamp = new Date().toISOString();  // Genera un timestamp único
@@ -96,8 +93,8 @@ const generateEmailBody = (productos, tipo) => {
 };
 
 // Tarea que se ejecuta cada minuto
-cron.schedule('*/10 * * * *', async () => {  // Ejecutar cada minuto
-  console.log('Cron de 10 minutos ejecutado');
+cron.schedule('0 */5 * * *', async () => {  // Ejecutar cada minuto
+  console.log('Cron de 5 horas ejecutado');
 
   try {
     const date = new Date();  // Obtén la fecha y hora actual
@@ -120,7 +117,7 @@ cron.schedule('*/10 * * * *', async () => {  // Ejecutar cada minuto
     console.log('Ejecutando tarea periódica...');
     // Generamos un timestamp único para este correo
     const timestamp = new Date().toISOString();
-    sendEmailData(`TESTING CADA 5 MINUTOS - ${timestamp}`, body);  // Asunto único con timestamp
+    sendEmailData(`TESTING CADA 5 horas - ${timestamp}`, body);  // Asunto único con timestamp
   } catch (error) {
     console.error('Error al ejecutar la tarea cada minuto:', error);
   }

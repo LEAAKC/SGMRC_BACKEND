@@ -57,9 +57,6 @@ export const obtenerProductosVencidos = async () => {
   }
 };
 
-
-
-
 //^ Función para calcular la diferencia en meses entre dos fechas
 const calcularDiferenciaEnMeses = (fechaInicio, fechaFin) => {
   const diferencia = fechaFin.getTime() - fechaInicio.getTime();
@@ -71,7 +68,7 @@ const calcularDiferenciaEnMeses = (fechaInicio, fechaFin) => {
 export const obtenerProductosAProximoVencer = async () => {
   try {
     const fechaActual = new Date();
-    const productosProximosAVencer = await Producto.find();
+    const productosProximosAVencer = await Producto.find();    
 
     // Filtrar los productos que están próximos a vencer
     const productosFiltrados = productosProximosAVencer.filter((producto) => {
