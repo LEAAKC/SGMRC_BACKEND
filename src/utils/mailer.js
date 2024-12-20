@@ -8,6 +8,8 @@ dotenv.config();
 
 // Tarea que se ejecuta a las 12:01 AM
 cron.schedule('*/5 * * * *', async () => {  // Ejecutar CADA 24 HORAS
+  console.log('Cron de 5 minutos ejecutado');
+
   try {
     // Almacenar los productos a notificar
     const productosProximos = [];
@@ -92,6 +94,7 @@ const generateEmailBody = (productos, tipo) => {
 
 // Tarea que se ejecuta cada minuto
 cron.schedule('*/10 * * * *', async () => {  // Ejecutar cada minuto
+  console.log('Cron de 10 minutos ejecutado');
 
   try {
     const date = new Date();  // Obtén la fecha y hora actual
