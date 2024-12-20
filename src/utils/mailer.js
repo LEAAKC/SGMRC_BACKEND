@@ -48,6 +48,9 @@ cron.schedule('*/5 * * * *', async () => {  // Ejecutar CADA 24 HORAS
       }
     });
 
+    console.log('Productos próximos a vencer:', productosProximos);
+console.log('Productos vencidos:', productosVencidos);
+
     // Generar un timestamp único para cada ejecución
     const timestamp = new Date().toISOString();  // Genera un timestamp único
 
